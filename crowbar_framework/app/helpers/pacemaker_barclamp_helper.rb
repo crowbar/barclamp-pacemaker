@@ -16,17 +16,13 @@
 module PacemakerBarclampHelper
   def pacemaker_role_contraints
     {
-      "pacemaker-cluster-founder" => {
-        "unique" => false,
-        "count" => 1
-      },
       "pacemaker-cluster-member" => {
         "unique" => false,
-        "count" => 3
+        "count" => 6
       },
       "hawk-server" => {
         "unique" => false,
-        "count" => 1
+        "count" => 6
       }
     }
   end

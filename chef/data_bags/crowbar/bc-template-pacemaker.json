@@ -3,21 +3,20 @@
   "description": "Installation for Pacemaker",
   "attributes": {
     "pacemaker": {
-      "foo": "bar"
+      "foo" : ""
     }
   },
   "deployment": {
     "pacemaker": {
       "crowbar-revision": 0,
       "element_states": {
-        "pacemaker-cluster-founder": [ "readying", "ready", "applying" ],
         "pacemaker-cluster-member" : [ "readying", "ready", "applying" ],
         "hawk-server"              : [ "readying", "ready", "applying" ]
       },
       "elements": {},
       "element_order": [
-        [ "pacemaker-cluster-founder" ],
-        [ "pacemaker-cluster-member", "hawk-server" ]
+        [ "pacemaker-cluster-member" ], 
+        [ "hawk-server" ]
       ],
       "config": {
         "environment": "pacemaker-base-config",
