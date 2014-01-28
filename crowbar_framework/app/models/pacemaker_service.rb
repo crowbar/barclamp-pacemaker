@@ -68,9 +68,8 @@ class PacemakerService < ServiceObject
        return
     end
 
-    if not elements.has_key?("pacemaker-cluster-founder") or elements["pacemaker-cluster-founder"].length != 1
-      validation_error "Need one (and only one) pacemaker-cluster-founder node."
-    end
+    validate_at_least_n_for_role proposal, "pacemaker-cluster-founder", 1
+    #validate_at_least_n_for_role proposal, "pacemaker-cluster-member", 3
 
     if elements.has_key?("hawk-server")
       @logger.debug("Pacemaker apply_role_pre_chef_call: elts #{elements.inspect}")
