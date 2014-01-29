@@ -20,7 +20,3 @@
 %w{ xfsprogs xfsdump }.each do |pkg|
   package pkg
 end
-
-package "xfslibs-dev" do
-  package_name "xfsprogs-devel" if platform?("redhat","centos","scientific","fedora")
-end

@@ -56,7 +56,6 @@ debs:
     - drbd8-utils
     - xfsprogs
     - xfsdump
-    - xfslibs-dev
     # - mod_fcgid
   os-token:
     repos:
