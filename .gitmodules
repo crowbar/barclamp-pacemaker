@@ -1,0 +1,3 @@
+[submodule "chef/cookbooks/drbd"]
+	path = chef/cookbooks/drbd
+	url = git://github.com/opscode-cookbooks/drbd.git
