@@ -63,19 +63,15 @@ class PacemakerService < ServiceObject
 
     # accept proposal with no allocated node -- ie, initial state
     if not elements.has_key?("pacemaker-cluster-member") and
-       not elements.has_key?("pacemaker-cluster-founder") and
        not elements.has_key?("hawk-server")
        return
     end
 
-    if not elements.has_key?("pacemaker-cluster-founder") or elements["pacemaker-cluster-founder"].length != 1
-      validation_error "Need one (and only one) pacemaker-cluster-founder node."
-    end
+    validate_at_least_n_for_role proposal, "pacemaker-cluster-member", 1
 
     if elements.has_key?("hawk-server")
       @logger.debug("Pacemaker apply_role_pre_chef_call: elts #{elements.inspect}")
-      members = (elements["pacemaker-cluster-founder"] || []) +
-                (elements["pacemaker-cluster-member" ] || [])
+      members = (elements["pacemaker-cluster-member" ] || [])
       @logger.debug("cluster members: #{members}")
 
       elements["hawk-server"].each do |n|
@@ -84,8 +80,7 @@ class PacemakerService < ServiceObject
         name = node.name
         name = "#{node.alias} (#{name})" if node.alias
         unless members.include? n
-          validation_error "Node #{name} has the hawk-server role but not either the pacemaker-cluster-founder or pacemaker-cluster-member role."
-        end
+          validation_error "Node #{name} has the hawk-server role but not either the pacemaker-cluster-member role."        end
       end
     end
 
