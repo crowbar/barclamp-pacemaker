@@ -1,10 +1,12 @@
-# Copyright 2011, Dell, Inc.
+#
+# Copyright 2011-2013, Dell
+# Copyright 2013-2014, SUSE LINUX Products GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-# http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,7 +22,6 @@ barclamp:
   proposal_schema_version: 1
   user_managed: true
   version: 0
-  #requires:
   member:
     - openstack
 
@@ -31,13 +32,14 @@ crowbar:
   chef_order: 53
   proposal_schema_version: 2
 
-# nav:
-#   barclamps:
-#     ha: index_barclamp_path(:controller=>'pacemaker')
-#     pacemaker: barclamp_modules_path(:id=>'pacemaker')
+#nav:
+#  barclamps:
+#    ha: 
+#      route: barclamps_path
+#      params:
+#        controller: pacemaker
 
 debs:
-  repos:
   pkgs:
     - libcluster-glue
     - libnet1
@@ -57,23 +59,11 @@ debs:
     - xfsprogs
     - xfsdump
     - xfslibs-dev
-    # - mod_fcgid
-  os-token:
-    repos:
-    ppas:
-    pkgs:
-    raw_pkgs:
 
 rpms:
   repos:
     - bare epel5-nagios3 10 http://repos.fedorapeople.org/repos/peter/nagios3/epel-5/x86_64/
-  pkgs:
-  raw_pkgs:
-  pkg_sources:
-  os-token:
 
 gems:
   pkgs:
-    - i18n
-    - rails-2.3.18 # Will try and pull rails-2.3.18 exactly.
-    - ruby-shadow
+    - ruby-shadow-2.3.3
