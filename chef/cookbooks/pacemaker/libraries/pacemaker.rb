@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 this_dir = File.dirname(__FILE__)
 
 require File.expand_path('pacemaker/resource/primitive',    this_dir)

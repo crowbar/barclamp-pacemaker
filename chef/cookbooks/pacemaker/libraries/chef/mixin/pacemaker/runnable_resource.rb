@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require ::File.expand_path('standard_cib_object', File.dirname(__FILE__))
 
 # Common code used by Pacemaker LWRP providers for resources supporting

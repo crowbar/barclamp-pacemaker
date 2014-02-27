@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 shared_examples "with meta attributes" do
   describe "#meta_string" do
     it "should return empty string with nil meta" do

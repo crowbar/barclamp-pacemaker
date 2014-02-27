@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Author:: Robert Choi
 # Cookbook Name:: pacemaker
 # Provider:: colocation

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'mixlib/shellout'
 
 require 'spec_helper'

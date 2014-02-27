@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require ::File.expand_path('../../../pacemaker/cib_object',
                            File.dirname(__FILE__))
 

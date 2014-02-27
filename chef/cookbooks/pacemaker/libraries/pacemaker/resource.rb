@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'chef/mixin/shell_out'
 require File.expand_path('cib_object', File.dirname(__FILE__))
 

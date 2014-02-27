@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Shared code used to test subclasses of Pacemaker::CIBObject
 
 require 'mixlib/shellout'

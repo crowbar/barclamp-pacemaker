@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 maintainer       "SUSE, GmbH"
 license          "Apache 2.0"
 description      "Installs and configures a base corosync installation"
