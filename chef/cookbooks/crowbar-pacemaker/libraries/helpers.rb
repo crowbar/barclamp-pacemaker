@@ -70,7 +70,7 @@ module CrowbarPacemakerHelper
   # 2. A Hash mapping the hostnames of the haproxy backend servers
   #    to their Chef Node objects.  This will be used to obtain
   #    additional data from the Node.
-  def self.haproxy_servers(node, role = "*")
+  def self.haproxy_servers(cluster_name, role = "*")
     haproxy_servers = []
     haproxy_servers_nodes = {}
 
@@ -92,14 +92,9 @@ module CrowbarPacemakerHelper
   # determine the list of haproxy backend servers which need to be
   # included in haproxy.cfg.  In order to minimise the number of Chef
   # searches and the consequent building of data structures, we
-  # memoize the results in this cache.  It is keyed by (node, role)
+  # memoize the results in this cache.  It is keyed by (cluster, role)
   # tuple and the values are the 2-element Arrays returned by
-  # #haproxy_servers.  (Technically it should be keyed by (cluster,
-  # role), since the results should be the same for any node within
-  # the cluster, but since the cache is not shared and has to be
-  # constructed per node, it should not make any difference, because
-  # calls to #haproxy_servers_for_service and #haproxy_servers on a
-  # single node should never span multiple clusters.)
+  # #haproxy_servers.
   @@haproxy_servers_cache = {}
 
   # Returns an Array of servers that can be passed as the servers
@@ -135,10 +130,11 @@ module CrowbarPacemakerHelper
   #       field
   def self.haproxy_servers_for_service(node, name, role, ports_key)
     # Fetch configured HA proxy servers for a given service
-    cache_key = "#{node}-#{role}"
+    cluster_name = cluster_name(node)
+    cache_key = "#{cluster_name}-#{role}"
 
     servers, server_nodes = @@haproxy_servers_cache.fetch(cache_key) do
-      @@haproxy_servers_cache[cache_key] = haproxy_servers(node, role)
+      @@haproxy_servers_cache[cache_key] = haproxy_servers(cluster_name, role)
     end
 
     # Clone each server Hash because we're going to change each of
