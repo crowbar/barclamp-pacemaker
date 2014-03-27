@@ -86,6 +86,11 @@ module CrowbarPacemakerHelper
     end
   end
 
+  # Each call to #cluster_nodes results in a Chef search, which is expensive.
+  # Therefore we cache the results (the list of nodes with the requested role
+  # in the cluster), using the role that is used for the query as cache key.
+  @@cluster_nodes_cache = {}
+
   # Performs a Chef search and returns an Array of Node objects for
   # all nodes in the same cluster as the given node, or an empty array
   # if the node isn't in a cluster.  Can optionally filter by role.
@@ -94,9 +99,18 @@ module CrowbarPacemakerHelper
   # for a node to be in multiple clusters.
   def self.cluster_nodes(node, role = "*")
     if cluster_enabled?(node)
-      server_nodes = []
-      Chef::Search::Query.new.search(:node, "roles:#{role || "*"} AND pacemaker_config_environment:#{node[:pacemaker][:config][:environment]}") { |o| server_nodes << o }
-      server_nodes
+      role ||= "*"
+      cache_key = role
+
+      nodes = @@cluster_nodes_cache.fetch(cache_key) do
+        @@cluster_nodes_cache[cache_key] = begin
+          server_nodes = []
+          Chef::Search::Query.new.search(:node, "roles:#{role} AND pacemaker_config_environment:#{node[:pacemaker][:config][:environment]}") { |o| server_nodes << o }
+          server_nodes
+        end
+      end
+
+      nodes
     else
       []
     end
