@@ -2,7 +2,7 @@
 
 = attributes_for @proposal do
   .panel-sub
-    = header @dep_raw, true
+    = header dep_raw, true
 
   .panel-body
     = select_field %w(crm no_quorum_policy), :collection => :no_quorum_policy_for_pacemaker
