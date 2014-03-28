@@ -28,7 +28,6 @@ bash "register Pacemaker maintenance handlers" do
   code <<'EOC'
     cat >> /etc/chef/client.rb <<EOF
 
-require '/var/chef/cache/cookbooks/crowbar-pacemaker/libraries/maintenance_mode_helpers'
 require '/var/chef/handlers/pacemaker_maintenance_handlers'
 
 pacemaker_start_handler = Chef::Pacemaker::StartHandler.new
