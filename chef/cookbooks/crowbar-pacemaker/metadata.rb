@@ -7,4 +7,5 @@ version          "0.1"
 
 depends "haproxy"
 depends "lvm"
+depends "drbd"
 depends "pacemaker"
