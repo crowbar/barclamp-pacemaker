@@ -46,6 +46,17 @@ require ::File.expand_path('../libraries/maintenance_mode_helpers', this_dir)
     name = new_resource.service_name
     Chef::Log.info("Disabling #{name} service; will be managed by Pacemaker instead")
     proxy_action(new_resource, :disable)
+
+    inventory = '/var/lib/pacemaker/managed-services'
+
+    directory inventory do
+      action :nothing
+    end.run_action(:create)
+
+    file "#{inventory}/#{name}" do
+      content "written by chef-client pid #$$"
+      action :nothing
+    end.run_action(:create)
   end
 end
 
