@@ -26,4 +26,4 @@ attribute :score, :kind_of => String
 
 # If more than two resources are given, Pacemaker will treat this
 # as a resource set.
-attribute :resources, :kind_of => Array
+attribute :resources, :kind_of => String

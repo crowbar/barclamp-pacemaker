@@ -43,7 +43,7 @@ describe "Chef::Provider::PacemakerColocation" do
     it "should modify the constraint if it has a resource added" do
       new_resource = 'bar:Stopped'
       expected = fixture.dup
-      expected.resources = expected.resources.dup + [new_resource]
+      expected.resources = expected.resources.dup + ' ' + new_resource
       expected_configure_cmd_args = [expected.reconfigure_command]
       test_modify(expected_configure_cmd_args) do
         @resource.resources expected.resources
@@ -51,7 +51,7 @@ describe "Chef::Provider::PacemakerColocation" do
     end
 
     it "should modify the constraint if it has a different resource" do
-      new_resources = ['bar:Started']
+      new_resources = 'bar:Started'
       fixture.resources = new_resources
       expected_configure_cmd_args = [fixture.reconfigure_command]
       test_modify(expected_configure_cmd_args) do
