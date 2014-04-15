@@ -18,18 +18,16 @@ require 'timeout'
 
 action :create do
   name        = new_resource.name
+  local_host  = new_resource.local_host
+  local_ip    = new_resource.local_ip
   remote_host = new_resource.remote_host
+  remote_ip   = new_resource.remote_ip
   port        = new_resource.port
   disk        = new_resource.disk
   device      = new_resource.device
   fstype      = new_resource.fstype
   master      = new_resource.master
   mount       = new_resource.mount
-
-  raise "No remote host defined for drbd resource #{name}!" if remote_host.nil?
-  remote_nodes = search(:node, "name:#{remote_host}")
-  raise "Remote node #{remote_host} not found!" if remote_nodes.empty?
-  remote = remote_nodes.first
 
   template "/etc/drbd.d/#{name}.res" do
     cookbook "drbd"
@@ -38,11 +36,11 @@ action :create do
       :resource => name,
       :device => device,
       :disk => disk,
-      :local_hostname => node.hostname,
-      :local_ip => node.ipaddress,
+      :local_hostname => local_host,
+      :local_ip => local_ip,
       :port => port,
-      :remote_hostname => remote.hostname,
-      :remote_ip => remote.ipaddress
+      :remote_hostname => remote_host,
+      :remote_ip => remote_ip
     )
     owner "root"
     group "root"

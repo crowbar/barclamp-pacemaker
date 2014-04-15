@@ -33,6 +33,15 @@ action :create do
     end
   end
 
+  raise "No remote host defined for drbd resource #{name}!" if remote_host.nil?
+  remote_nodes = search(:node, "name:#{remote_host}")
+  raise "Remote node #{remote_host} not found!" if remote_nodes.empty?
+  remote = remote_nodes.first
+
+  local_host = node.hostname
+  local_ip = Chef::Recipe::Barclamp::Inventory.get_network_by_type(node, "admin").address
+  remote_ip = Chef::Recipe::Barclamp::Inventory.get_network_by_type(remote, "admin").address
+
   is_master = CrowbarPacemakerHelper.is_cluster_founder?(node)
 
   if node["drbd"]["rsc"].has_key?(name)
@@ -41,6 +50,9 @@ action :create do
     dirty = false
     dirty ||= true if resource["fstype"] != fstype
     dirty ||= true if resource["remote_host"] != remote_host
+    dirty ||= true if resource["remote_ip"] != remote_ip
+    dirty ||= true if resource["local_host"] != local_host
+    dirty ||= true if resource["local_ip"] != local_ip
     dirty ||= true if resource["master"] != is_master
 
     if dirty && resource["configured"]
@@ -50,6 +62,9 @@ action :create do
     node["drbd"]["rsc"][name]["lvm_size"] = lvm_size
     node["drbd"]["rsc"][name]["fstype"] = fstype
     node["drbd"]["rsc"][name]["remote_host"] = remote_host
+    node["drbd"]["rsc"][name]["remote_ip"] = remote_ip
+    node["drbd"]["rsc"][name]["local_host"] = local_host
+    node["drbd"]["rsc"][name]["local_ip"] = local_ip
     node["drbd"]["rsc"][name]["master"] = is_master
   else
     next_free_port = 7788
@@ -65,6 +80,9 @@ action :create do
       "lvm_size" => lvm_size,
       "lvm_lv" => name,
       "remote_host" => remote_host,
+      "remote_ip" => remote_ip,
+      "local_host" => local_host,
+      "local_ip" => local_ip,
       "port" => next_free_port,
       "device" => "/dev/drbd#{next_free_device}",
       "fstype" => fstype,
