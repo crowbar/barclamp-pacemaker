@@ -56,6 +56,17 @@ EOF
     it "should parse the resources" do
       expect(@parsed.resources).to eq(fixture.resources)
     end
+  end
 
+  describe "#configure_command" do
+    it "should escape round parentheses" do
+      fixture.resources = '( a b ) c'
+      expect(fixture.configure_command).to include('\( a b \) c')
+    end
+
+    it "should escape square parentheses" do
+      fixture.resources = '[ a b ] c'
+      expect(fixture.configure_command).to include('\[ a b \] c')
+    end
   end
 end
