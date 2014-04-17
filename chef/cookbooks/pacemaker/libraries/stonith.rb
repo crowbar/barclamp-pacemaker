@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module PacemakerStonithHelper
   @@stonith_agents = nil
 

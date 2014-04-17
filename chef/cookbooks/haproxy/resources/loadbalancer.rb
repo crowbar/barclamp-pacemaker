@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #
 # 2009-2013, Opscode, Inc
 # 2014, SUSE

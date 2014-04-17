@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 name             'fake'
 maintainer       'Opscode, Inc.'
 maintainer_email 'cookbooks@opscode.com'

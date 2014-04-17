@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require File.expand_path('clone', File.dirname(__FILE__))
 
 class Pacemaker::Resource::MasterSlave < Pacemaker::Resource::Clone

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Shared code used to test providers of CIB objects
 
 this_dir = File.dirname(__FILE__)

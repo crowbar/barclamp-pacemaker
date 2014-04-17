@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #
 # Author:: Vincent Untz
 # Cookbook Name:: pacemaker

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #
 # Cookbook Name:: lvm
 # Library:: provider_lvm_logical_volume
