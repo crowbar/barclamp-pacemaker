@@ -12,6 +12,7 @@
           "type": "map",
           "required": true,
           "mapping": {
+            "setup_hawk": { "type": "bool", "required": true },
             "setup_hb_gui": { "type": "bool", "required": true },
             "corosync": {
               "type": "map",

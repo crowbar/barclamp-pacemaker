@@ -3,6 +3,7 @@
   "description": "Installation for Pacemaker",
   "attributes": {
     "pacemaker": {
+      "setup_hawk": false,
       "setup_hb_gui": false,
       "corosync": {
         "mcast_addr": "239.255.0.1",
@@ -50,12 +51,11 @@
     "pacemaker": {
       "crowbar-revision": 0,
       "element_states": {
-        "pacemaker-cluster-member" : [ "readying", "ready", "applying" ],
-        "hawk-server"              : [ "readying", "ready", "applying" ]
+        "pacemaker-cluster-member" : [ "readying", "ready", "applying" ]
       },
       "elements": {},
       "element_order": [
-        [ "pacemaker-cluster-member", "hawk-server" ]
+        [ "pacemaker-cluster-member" ]
       ],
       "config": {
         "environment": "pacemaker-base-config",

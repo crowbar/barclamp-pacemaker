@@ -30,10 +30,6 @@ class PacemakerService < ServiceObject
         "pacemaker-cluster-member" => {
           "unique" => false,
           "count" => 32
-        },
-        "hawk-server" => {
-          "unique" => false,
-          "count" => -1
         }
       }
     end
@@ -166,6 +162,9 @@ class PacemakerService < ServiceObject
   def apply_role_post_chef_call(old_role, role, all_nodes)
     @logger.debug("Pacemaker apply_role_post_chef_call: entering #{all_nodes.inspect}")
 
+    setup_hawk = role.default_attributes["pacemaker"]["setup_hawk"]
+    link_text = "Pacemaker Cluster (Hawk)"
+
     # Make sure the nodes have a link to the dashboard on them.  This
     # needs to be done via apply_role_post_chef_call rather than
     # apply_role_pre_chef_call, since the server port attribute is not
@@ -173,16 +172,23 @@ class PacemakerService < ServiceObject
     all_nodes.each do |n|
       node = NodeObject.find_node_by_name(n)
 
-      next unless node.role? "hawk-server"
+      if setup_hawk
+        hawk_server_ip = node.get_network_by_type("admin")["address"]
+        hawk_server_port = node["hawk"]["server"]["port"]
+        url = "https://#{hawk_server_ip}:#{hawk_server_port}/"
 
-      hawk_server_ip = node.get_network_by_type("admin")["address"]
-      hawk_server_port = node["hawk"]["server"]["port"]
-      url = "https://#{hawk_server_ip}:#{hawk_server_port}/"
-
-      node.crowbar["crowbar"] = {} if node.crowbar["crowbar"].nil?
-      node.crowbar["crowbar"]["links"] = {} if node.crowbar["crowbar"]["links"].nil?
-      node.crowbar["crowbar"]["links"]["Pacemaker Cluster (Hawk)"] = url
-      node.save
+        node.crowbar["crowbar"] = {} if node.crowbar["crowbar"].nil?
+        node.crowbar["crowbar"]["links"] = {} if node.crowbar["crowbar"]["links"].nil?
+        if node.crowbar["crowbar"]["links"][link_text] != url
+          node.crowbar["crowbar"]["links"][link_text] = url
+          node.save
+        end
+      else
+        if !node.crowbar["crowbar"]["links"].nil? && node.crowbar["crowbar"]["links"].has_key?(link_text)
+          node.crowbar["crowbar"]["links"].delete(link_text)
+          node.save
+        end
+      end
     end
 
     @logger.debug("Pacemaker apply_role_post_chef_call: leaving")
@@ -263,21 +269,7 @@ class PacemakerService < ServiceObject
   def validate_proposal_after_save proposal
     validate_at_least_n_for_role proposal, "pacemaker-cluster-member", 1
 
-    elements = proposal["deployment"]["pacemaker"]["elements"]
-
-    members = (elements["pacemaker-cluster-member" ] || [])
-
-    if elements.has_key?("hawk-server")
-      elements["hawk-server"].each do |n|
-        @logger.debug("checking #{n}")
-        unless members.include? n
-          node = NodeObject.find_node_by_name(n)
-          name = node.name
-          name = "#{node.alias} (#{name})" if node.alias
-          validation_error "Node #{name} has the hawk-server role but not the pacemaker-cluster-member role."
-        end
-      end
-    end
+    members = ( proposal["deployment"]["pacemaker"]["elements"]["pacemaker-cluster-member" ] || [])
 
     if proposal["attributes"][@bc_name]["notifications"]["smtp"]["enabled"]
       smtp_settings = proposal["attributes"][@bc_name]["notifications"]["smtp"]

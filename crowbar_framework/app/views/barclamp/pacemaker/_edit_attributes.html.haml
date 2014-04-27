@@ -89,7 +89,9 @@
       %legend
         = t(".gui_header")
 
-      = password_field %w(corosync password)
+      = boolean_field :setup_hawk, "data-showit" => "true", "data-showit-target" => "#corosync_password_container", "data-showit-direct" => "true"
+      #corosync_password_container
+        = password_field %w(corosync password)
       = boolean_field :setup_hb_gui
       %span.help-block
         = t(".hb_gui_hint")
