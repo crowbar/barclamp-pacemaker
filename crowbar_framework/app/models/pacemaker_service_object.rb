@@ -1,5 +1,7 @@
 # -*- encoding : utf-8 -*-
-# Copyright 2014, SUSE
+#
+# Copyright 2011-2013, Dell
+# Copyright 2013-2014, SUSE LINUX Products GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +22,6 @@
 #
 # It also provides some helpers that ServiceObject will wrap.
 #
-
 class PacemakerServiceObject < ServiceObject
 
   #

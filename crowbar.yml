@@ -16,14 +16,12 @@
 #
 
 barclamp:
-  name: pacemaker
-  display: Pacemaker
-  description: Deploy Pacemaker clusters
-  proposal_schema_version: 1
-  user_managed: true
+  name: 'pacemaker'
+  display: 'Pacemaker'
+  description: 'Deploy Pacemaker clusters'
   version: 0
   member:
-    - openstack
+    - 'openstack'
 
 crowbar:
   layout: 1
@@ -41,29 +39,28 @@ crowbar:
 
 debs:
   pkgs:
-    - libcluster-glue
-    - libnet1
-    - libopenhpi2
-    - libopenipmi0
-    - cluster-glue
-    - cluster-agents
-    - libcorosync4
-    - corosync
-    - libesmtp5
-    - libheartbeat2
-    - libxslt1.1
-    - openhpid
-    - pacemaker
-    - haveged
-    - drbd8-utils
-    - xfsprogs
-    - xfsdump
-    - xfslibs-dev
+    - 'libcluster-glue'
+    - 'libnet1'
+    - 'libopenhpi2'
+    - 'libopenipmi0'
+    - 'cluster-glue'
+    - 'cluster-agents'
+    - 'libcorosync4'
+    - 'corosync'
+    - 'libesmtp5'
+    - 'libheartbeat2'
+    - 'libxslt1.1'
+    - 'openhpid'
+    - 'pacemaker'
+    - 'haveged'
+    - 'drbd8-utils'
+    - 'xfsprogs'
+    - 'xfsdump'
+    - 'xfslibs-dev'
 
 rpms:
   repos:
-    - bare epel5-nagios3 10 http://repos.fedorapeople.org/repos/peter/nagios3/epel-5/x86_64/
+    - 'bare epel5-nagios3 10 http://repos.fedorapeople.org/repos/peter/nagios3/epel-5/x86_64/'
 
 gems:
-  pkgs:
-    - ruby-shadow-2.3.3
+  - 'ruby-shadow-2.3.3'
