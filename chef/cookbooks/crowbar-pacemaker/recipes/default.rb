@@ -96,3 +96,11 @@ if access_keys.size > 0
   node["provisioner"]["access_keys"] = access_keys.values.join("\n")
   node.save
 end
+
+if CrowbarPacemakerHelper.is_cluster_founder?
+  # check for deleted cluster members and clean up after them
+  Chef::Search::Query.new.search(:node, "roles:pacemaker-cluster-member_remove AND pacemaker_config_environment:#{node[:pacemaker][:config][:environment]}") do |n|
+    ::Kernel.system("crm node delete #{n.name}")
+  end
+  # TODO remove node from any constraints which mention it
+end
