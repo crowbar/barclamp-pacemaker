@@ -23,4 +23,8 @@ class PacemakerController < BarclampController
   def initialize_service
     @service_object = PacemakerService.new logger
   end
+
+  def permitted_params
+    params.require(:pacemaker)
+  end
 end
