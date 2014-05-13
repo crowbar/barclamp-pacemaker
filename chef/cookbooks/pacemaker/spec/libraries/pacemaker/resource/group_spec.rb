@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'spec_helper'
 
 require File.expand_path('../../../../libraries/pacemaker/resource/group',

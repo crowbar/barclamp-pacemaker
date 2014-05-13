@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 name              'lvm'
 maintainer        'Opscode, Inc.'
 maintainer_email  'cookbooks@opscode.com'

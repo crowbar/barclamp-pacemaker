@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Ensure that we exit Pacemaker maintenance mode when appropriate.
 # See the crowbar-pacemaker::maintenance-mode recipe for more
 # information.

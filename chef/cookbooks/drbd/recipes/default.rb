@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 #
 # Author:: Matt Ray <matt@opscode.com>
 # Cookbook Name:: drbd

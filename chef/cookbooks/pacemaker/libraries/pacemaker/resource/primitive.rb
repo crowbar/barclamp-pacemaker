@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'shellwords'
 
 this_dir = File.dirname(__FILE__)

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 maintainer       "SUSE"
 maintainer_email "crowbar@dell.com"
 license          "Apache 2.0"

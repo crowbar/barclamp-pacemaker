@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require ::File.expand_path('../../libraries/pacemaker/resource/primitive',
                            File.dirname(__FILE__))
 

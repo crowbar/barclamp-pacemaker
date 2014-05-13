@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 name "pacemaker-cluster-member"
 description "Pacemaker cluster member"
 run_list(

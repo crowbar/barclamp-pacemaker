@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 name "hawk-server"
 description "Hawk web server"
 run_list(

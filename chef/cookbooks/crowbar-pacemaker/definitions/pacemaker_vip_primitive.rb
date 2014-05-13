@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 define :pacemaker_vip_primitive, :cb_network => nil, :hostname => nil, :domain => nil, :op => nil do
   network = params[:cb_network]
   net_db = data_bag_item('crowbar', "#{network}_network")

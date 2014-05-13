@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # Shared code used to test providers of non-runnable Chef resources
 # representing Pacemaker CIB objects.  For example the provider for
 # primitives is runnable (since primitives can be started and stopped)

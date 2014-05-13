@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require File.expand_path('../constraint', File.dirname(__FILE__))
 
 class Pacemaker::Constraint::Colocation < Pacemaker::Constraint

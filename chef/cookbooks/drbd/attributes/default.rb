@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 default["drbd"]["rsc"] = {}
 
 default[:drbd][:pacemaker][:agent] = "ocf:linbit:drbd"

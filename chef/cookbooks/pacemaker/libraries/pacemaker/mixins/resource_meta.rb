@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 # A mixin for Pacemaker::Resource subclasses which support meta attributes
 # (priority, target-role, is-managed, etc.)
 

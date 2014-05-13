@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'chefspec'
 
 ENV['RSPEC_RUNNING'] = 'true'
