@@ -27,6 +27,14 @@ ruby_block "putting node into the standby node" do
   end
 end
 
+# remove stonith resources
+stonith_resource = "stonith-#{node[:hostname]}"
+pacemaker_primitive stonith_resource do
+  agent "stonith:#{node[:pacemaker][:stonith][:per_node][:agent]}"
+  action [:stop, :delete]
+  only_if "crm configure show #{stonith_resource}"
+end
+
 # wait for services to migrate away - don't proceed if this times out!
 ruby_block "check for services migration" do
   block do
