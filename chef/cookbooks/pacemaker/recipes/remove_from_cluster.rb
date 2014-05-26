@@ -73,6 +73,7 @@ end
 # stop and disable the corosync service
 service node[:corosync][:platform][:service_name] do
   action [:disable, :stop]
+  retries 1 # stopping could take long time
 end
 
 ruby_block "wait for corosync service to finish" do
