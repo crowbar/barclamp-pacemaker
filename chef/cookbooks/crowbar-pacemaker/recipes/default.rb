@@ -100,7 +100,7 @@ end
 if CrowbarPacemakerHelper.is_cluster_founder? node
   # check for deleted cluster members and clean up after them
   Chef::Search::Query.new.search(:node, "roles:pacemaker-cluster-member_remove AND pacemaker_config_environment:#{node[:pacemaker][:config][:environment]}") do |n|
-    ::Kernel.system("crm node delete #{n.name}")
+    ::Kernel.system("crm node delete #{n['hostname']}")
   end
   # TODO remove node from any constraints which mention it
 end

@@ -28,7 +28,8 @@ ruby_block "putting node into the standby node" do
 end
 
 # remove stonith resources
-stonith_resource = "stonith-#{node[:hostname]}"
+hostname = node[:hostname]
+stonith_resource = "stonith-#{hostname}"
 pacemaker_primitive stonith_resource do
   agent "stonith:#{node[:pacemaker][:stonith][:per_node][:agent]}"
   action [:stop, :delete]
@@ -56,7 +57,7 @@ ruby_block "check for services migration" do
           mon.each_index do |i|
             line        = mon[i]
             next_line   = mon[i+1]
-            if (line =~ /Node #{node.name}:/) && (next_line.nil? || next_line =~ /Node/)
+            if (line =~ /Node #{hostname}:/) && (next_line.nil? || next_line =~ /Node/)
               resources_running = false
             end
           end
@@ -66,6 +67,7 @@ ruby_block "check for services migration" do
       Chef::Log.fatal("resources were not migrated from #{node.name} after trying for 1 minute")
     end
   end
+  only_if "crm status"
 end
 
 # stop and disable the corosync service
