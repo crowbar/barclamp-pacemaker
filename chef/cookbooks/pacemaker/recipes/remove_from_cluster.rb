@@ -97,3 +97,13 @@ end
 file "/etc/corosync/corosync.conf" do
   action :delete
 end
+
+ruby_block "remove this node by the call from cluster founder" do
+  block do
+    Chef::Search::Query.new.search(:node, "pacemaker_founder:true") do |n|
+      cmd = "crm node status #{hostname} && crm node delete #{hostname}"
+      # ssh connection is possible among the cluster members
+      ::Kernel.system("ssh #{n.name} '#{cmd}'")
+    end
+  end
+end
