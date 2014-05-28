@@ -26,7 +26,9 @@ class Chef
         unless @current_resource
           raise "Cannot stop non-existent #{cib_object_class.description} '#{name}'"
         end
-        return unless @current_cib_object.running?
+        unless cib_object_class.description.include? "group resource"
+          return unless @current_cib_object.running?
+        end
         execute @current_cib_object.crm_stop_command do
           action :nothing
         end.run_action(:run)
@@ -36,8 +38,10 @@ class Chef
 
       def delete_runnable_resource
         return unless @current_resource
-        if @current_cib_object.running?
-          raise "Cannot delete running #{@current_cib_object}"
+        unless cib_object_class.description.include? "group resource"
+          if @current_cib_object.running?
+            raise "Cannot delete running #{@current_cib_object}"
+          end
         end
         standard_delete_resource
       end
