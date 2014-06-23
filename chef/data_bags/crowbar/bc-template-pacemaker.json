@@ -56,7 +56,7 @@
       },
       "elements": {},
       "element_order": [
-        [ "pacemaker-cluster-member_remove", "pacemaker-cluster-member", "hawk-server" ]
+        [ "pacemaker-cluster-member", "hawk-server" ]
       ],
       "config": {
         "environment": "pacemaker-base-config",
