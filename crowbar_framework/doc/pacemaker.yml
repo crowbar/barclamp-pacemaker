@@ -1,4 +1,3 @@
-#!/usr/bin/env ruby
 #
 # Copyright 2011-2013, Dell
 # Copyright 2013-2014, SUSE LINUX Products GmbH
@@ -16,7 +15,19 @@
 # limitations under the License.
 #
 
-require File.join(File.expand_path(File.dirname(__FILE__)), "barclamp_lib")
-@barclamp = "pacemaker"
+root:
+  topic_meta_data:
+    author: 'Multiple authors'
+    license: 'Apache 2'
+    copyright: '2014 by Dell, Inc'
+    date: 'June 1, 2012'
+    order: 'alpha'
+    url: '/crowbar/openstack/1.0'
+    format: 'markdown'
 
-main
+  barclamps:
+    pacemaker:
+      topic_meta_data:
+        file: 'index'
+        url: '/crowbar/openstack/1.0?selected=pacemaker'
+        order: 100

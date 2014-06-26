@@ -1,10 +1,12 @@
-# Copyright 2014, SUSE
+#
+# Copyright 2011-2013, Dell
+# Copyright 2013-2014, SUSE LINUX Products GmbH
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#  http://www.apache.org/licenses/LICENSE-2.0
+#   http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -196,7 +198,7 @@ class PacemakerServiceObject < ServiceObject
     # cookbook code is executed faster. So far, it seems it's not an issue
     # (we're not even hitting the "will run chef-client a second time if first
     # one fails), but this would still need to be improved.
-    system("sudo", "-i", Rails.root.join("..", "bin", "single_chef_client.sh").expand_path) if CHEF_ONLINE
+    system("sudo", "-i", Rails.root.join("..", "bin", "single_chef_client.sh").expand_path)
   end
 
   # This prepares attributes so that, if ha_enabled is true, the chef run will
