@@ -16,7 +16,7 @@ default[:drbd][:pacemaker][:ms][:meta][:target_role] = "Started"
 
 case node.platform
 when 'suse'
-  default[:drbd][:packages] = %w(drbd-utils drbd-bash-completion drbd-kmp-default drbd-pacemaker drbd-udev)
+  default[:drbd][:packages] = %w(drbd drbd-utils drbd-bash-completion drbd-kmp-default drbd-pacemaker drbd-udev)
 else
   default[:drbd][:packages] = %w(drbd8-utils)
 end
