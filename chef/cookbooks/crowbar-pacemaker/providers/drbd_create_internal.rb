@@ -53,7 +53,10 @@ action :create do
     end.run_action(:create)
 
     drbd_resource resource_name do
+      local_host resource["local_host"]
+      local_ip resource["local_ip"]
       remote_host resource["remote_host"]
+      remote_ip resource["remote_ip"]
       port resource["port"]
       disk "/dev/#{new_resource.lvm_group}/#{resource["lvm_lv"]}"
       device resource["device"]
