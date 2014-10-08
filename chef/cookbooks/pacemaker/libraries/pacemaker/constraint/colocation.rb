@@ -20,11 +20,11 @@ class Pacemaker::Constraint::Colocation < Pacemaker::Constraint
     end
     self.name  = $1
     self.score = $2
-    self.resources = $3.split
+    self.resources = $3
   end
 
   def definition_string
-    "#{self.class::TYPE} #{name} #{score}: " + resources.join(' ')
+    "#{self.class::TYPE} #{name} #{score}: #{resources}"
   end
 
 end

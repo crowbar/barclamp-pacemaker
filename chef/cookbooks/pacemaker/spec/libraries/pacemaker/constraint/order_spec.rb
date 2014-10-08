@@ -58,4 +58,16 @@ EOF
     end
 
   end
+
+  describe "#configure_command" do
+    it "should escape round parentheses" do
+      fixture.ordering = '( a b ) c'
+      expect(fixture.configure_command).to include('\( a b \) c')
+    end
+
+    it "should escape square parentheses" do
+      fixture.ordering = '[ a b ] c'
+      expect(fixture.configure_command).to include('\[ a b \] c')
+    end
+  end
 end
