@@ -19,6 +19,26 @@ module CrowbarPacemaker
   # Chef::Provider::PacemakerService LWRP.
   module MaintenanceModeHelpers
     def maintenance_mode?
+      # For once, we want 2>&1 to come before >/dev/null, not after!
+      cibadmin = %x(cibadmin -Ql 2>&1 >/dev/null)
+      case cibadmin
+      when /Connection refused/
+        # Cluster is not up, so let things proceed so that Chef can
+        # start it if appropriate.
+        return false
+      when /command not found/
+        # pacemaker has been deinstalled?
+        return false
+      end
+
+      if ! $?.success?
+        Chef::Log.warn("cibadmin -Ql failed when checking Pacemaker maintenance mode!")
+        Chef::Log.warn(cibadmin)
+        Chef::Log.warn("Something wrong, so treating as if in maintenance " +
+          "mode; will need manual intervention.")
+        return true
+      end
+
       !! (%x(crm node show #{node.hostname}) =~ /maintenance:\s*on/)
     end
 
