@@ -40,6 +40,7 @@ module Pacemaker
 
       h = {}
       Shellwords.split($1).each do |kvpair|
+        break if kvpair == '\\'
         break if kvpair == 'op'
         unless kvpair =~ /^(.+?)=(.*)$/
           raise "Couldn't understand '#{kvpair}' for '#{data_type}' section "\

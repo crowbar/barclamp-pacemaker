@@ -44,8 +44,8 @@ if lvm_disk.nil?
   raise message
 end
 
-# Make sure that LVM is setup on boot
-if %w(suse).include? node.platform
+if node.platform == "suse" && node.platform_version.to_f < 12.0
+  # Make sure that LVM is setup on boot
   service "boot.lvm" do
     action [:enable]
   end
@@ -59,8 +59,11 @@ lvm_volume_group lvm_group do
   physical_volumes [lvm_disk.name]
 end
 
-include_recipe "drbd::default"
+include_recipe "drbd::install"
+include_recipe "drbd::config"
 
 crowbar_pacemaker_drbd_create_internal "create drbd resources" do
   lvm_group lvm_group
 end
+
+include_recipe "drbd::default"
