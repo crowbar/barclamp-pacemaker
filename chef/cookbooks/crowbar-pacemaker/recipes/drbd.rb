@@ -26,7 +26,10 @@ claimed_disks = BarclampLibrary::Barclamp::Inventory::Disk.claimed(node, claim_s
 
 if claimed_disks.empty? and not unclaimed_disks.empty?
   unclaimed_disks.each do |disk|
-    if disk.claim(claim_string)
+    %x{lsblk #{disk.name} --noheadings --output MOUNTPOINT | grep -q -v ^$}
+    if $?.exitstatus == 0
+      Chef::Log.info("#{claim_string}: Skipping #{disk.name}: disk already mounted")
+    elsif disk.claim(claim_string)
       Chef::Log.info("#{claim_string}: Claimed #{disk.name}")
       lvm_disk = disk
       break
