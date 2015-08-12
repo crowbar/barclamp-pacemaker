@@ -1,9 +1,13 @@
 def upgrade ta, td, a, d
-  a['haproxy']['admin_name'] = ta['haproxy']['admin_name']
+  unless a['haproxy'].has_key? 'admin_name'
+    a['haproxy']['admin_name'] = ta['haproxy']['admin_name']
+  end
   return a, d
 end
 
 def downgrade ta, td, a, d
-  a['haproxy'].delete('admin_name')
+  unless ta['haproxy'].has_key? 'admin_name'
+    a['haproxy'].delete('admin_name')
+  end
   return a, d
 end
