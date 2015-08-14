@@ -57,7 +57,10 @@ require 'timeout'
 module CrowbarPacemakerSynchronization
 
   # See "Synchronization helpers" documentation
-  def self.wait_for_mark_from_founder(node, mark, revision, fatal = false, timeout = 60)
+  def self.wait_for_mark_from_founder(node, mark, revision, fatal = false, timeout = 60, cookbook = "crowbar-pacemaker")
+
+    return unless node[cookbook].nil? || node[cookbook][:ha].nil? || node[cookbook][:ha][:enabled]
+
     return unless CrowbarPacemakerHelper.cluster_enabled?(node)
     return if CrowbarPacemakerHelper.is_cluster_founder?(node)
 
@@ -92,7 +95,10 @@ module CrowbarPacemakerSynchronization
   end
 
   # See "Synchronization helpers" documentation
-  def self.set_mark_if_founder(node, mark, revision)
+  def self.set_mark_if_founder(node, mark, revision, cookbook = "crowbar-pacemaker")
+    
+    return unless node[cookbook].nil? || node[cookbook][:ha].nil? || node[cookbook][:ha][:enabled]
+
     return unless CrowbarPacemakerHelper.cluster_enabled?(node)
     return unless CrowbarPacemakerHelper.is_cluster_founder?(node)
 
@@ -110,7 +116,10 @@ module CrowbarPacemakerSynchronization
   end
 
   # See "Synchronization helpers" documentation
-  def self.synchronize_on_mark(node, mark, revision, fatal = false, timeout = 60)
+  def self.synchronize_on_mark(node, mark, revision, fatal = false, timeout = 60, cookbook = "crowbar-pacemaker")
+    
+    return unless node[cookbook].nil? || node[cookbook][:ha].nil? || node[cookbook][:ha][:enabled]
+
     return unless CrowbarPacemakerHelper.cluster_enabled?(node)
 
     cluster_name = CrowbarPacemakerHelper.cluster_name(node)
