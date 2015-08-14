@@ -15,15 +15,19 @@
 
 case node.platform
 when 'suse'
-  default[:pacemaker][:platform][:packages] = %w(pacemaker crmsh)
+  # Install xorg-x11-xauth by default so that 'crm configure graph'
+  # (which uses dotty) will show a nice configuration graph over ssh
+  # with X11 forwarding.
+  default[:pacemaker][:platform][:packages] = %w(
+    pacemaker crmsh xorg-x11-xauth
+  )
 
   # pacemaker-mgmt-client provides hb_gui, which it's useful
   # to run over ssh.  Note that pacemaker-mgmt needs to be installed
   # *before* the corosync service is started, otherwise the mgmtd
   # plugin won't be forked as a child process.
   default[:pacemaker][:platform][:graphical_packages] = %w(
-    pacemaker-mgmt pacemaker-mgmt-client
-    xorg-x11-xauth xorg-x11-fonts
+    pacemaker-mgmt pacemaker-mgmt-client xorg-x11-fonts
   )
 else
 
