@@ -27,4 +27,5 @@ attribute :port,    :kind_of => Integer, :default => 0
 attribute :mode,    :kind_of => String,  :default => 'http', :equal_to => ['http', 'tcp', 'health']
 attribute :use_ssl, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :options, :kind_of => Array,   :default => []
+attribute :check,   :kind_of => Hash,    :default => { :inter => 2000, :rise => 2, :fall => 5 }
 attribute :servers, :kind_of => Array,   :default => []

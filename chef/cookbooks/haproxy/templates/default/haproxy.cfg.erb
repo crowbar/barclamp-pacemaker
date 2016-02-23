@@ -49,7 +49,7 @@ listen  admin-stats <%= node[:haproxy][:stats][:enabled] ? node[:haproxy][:stats
     <% end -%>
 
     <% content[:servers].each do |server| -%>
-	server <%= server[:name] %> <%= server[:address] %>:<%= server[:port] %> check inter 2000 rise 2 fall 5
+	server <%= server[:name] %> <%= server[:address] %>:<%= server[:port] %> check <%= content[:check] %>
     <% end -%>
 
   <% end -%>
