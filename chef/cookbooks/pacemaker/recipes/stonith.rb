@@ -108,6 +108,7 @@ when "shared"
 
   pacemaker_primitive "stonith-shared" do
     agent "stonith:#{agent}"
+    op node[:pacemaker][:stonith][:shared][:op]
     params primitive_params
     action [:create, :start]
   end
@@ -150,6 +151,7 @@ when "per_node"
 
     pacemaker_primitive stonith_resource do
       agent "stonith:#{agent}"
+      op node[:pacemaker][:stonith][:per_node][:op]
       params primitive_params
       action [:create, :start]
     end
