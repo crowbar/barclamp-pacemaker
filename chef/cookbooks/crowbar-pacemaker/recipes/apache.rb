@@ -57,6 +57,9 @@ end
 pacemaker_clone "cl-#{service_name}" do
   rsc service_name
   action [ :create, :start ]
+  meta ({
+    "interleave" => "true"
+  })
   only_if { CrowbarPacemakerHelper.is_cluster_founder?(node) }
 end
 
