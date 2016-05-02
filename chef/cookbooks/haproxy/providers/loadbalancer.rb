@@ -57,6 +57,7 @@ action :create do
     end
   end
   section['servers'] = new_resource.servers
+  section["check"] = new_resource.check.sort.map{ |k, v| "#{k} #{v}" }.join(" ")
 
   node.default['haproxy']['sections'][new_resource.type][new_resource.name] = section
 end
