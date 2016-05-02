@@ -136,6 +136,57 @@ class PacemakerServiceObject < ServiceObject
     [elements, all_nodes, has_expanded]
   end
 
+  # !!! Horrible workaround until we fix crowbar orchestration !!!
+  # Because each chef-client runs executes everything in all cookbooks, and
+  # because the crm calls slow things down considerably, we have a drift issue
+  # where the founder (which does much more work since it's the only one doing
+  # the crm calls) goes much slower than the other nodes. This can impact
+  # things badly when it's so slow that it triggers the timeout in the sync
+  # marks.
+  # The workaround here is to reset the sync marks on the founder, so that all
+  # nodes wait on the sync marks and the drift is only happening between sync
+  # marks.
+  # The goal is to only do this when applying a proposal, so that other
+  # chef-client runs are not blocked waiting for sync marks.
+  def self.reset_sync_marks_on_cluster_founder(founder, cluster)
+    return if founder.nil? ||
+        founder[:pacemaker].nil? ||
+        founder[:pacemaker][:sync_marks].nil? ||
+        founder[:pacemaker][:sync_marks][cluster].nil?
+
+    founder[:pacemaker][:sync_marks][cluster].keys.each do |sync_mark|
+      # The pacemaker_setup sync mark (see the crowbar-pacemaker::default
+      # recipe) requires special handling: it is created by the founder in
+      # Chef's convergence phase, but waited for by all non-founders in Chef's
+      # compile phase, because they need it in order to copy the authkey
+      # attribute from the founder to themselves and then invoke the
+      # corosync::authkey_writer recipe.
+      #
+      # This is only required for initial pacemaker setup and running in
+      # compile phase, so we don't want to reset it.  If we were to reset it,
+      # then every time a proposal was applied, the non-founder nodes would be
+      # blocked in their compile phase until the founder reached the point in
+      # its convergence phase where it creates the pacemaker_setup sync mark,
+      # and this would be too long for the non-founders to wait when the run
+      # list is long.
+      next if sync_mark == "pacemaker_setup"
+      founder[:pacemaker][:sync_marks][cluster].delete(sync_mark)
+    end
+
+    founder.save
+  end
+
+  def reset_sync_marks_on_clusters_founders(elements)
+    elements.each do |element|
+      next unless PacemakerServiceObject.is_cluster? element
+
+      cluster = cluster_name(element)
+      founder = NodeObject.find("pacemaker_founder:true AND pacemaker_config_environment:pacemaker-config-#{cluster}").first
+
+      PacemakerServiceObject.reset_sync_marks_on_cluster_founder(founder, cluster)
+    end
+  end
+
   # This allocates a virtual IP for the cluster in each network in networks
   # (which is a list)
   # Returns: two booleans:
