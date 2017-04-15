@@ -15,7 +15,7 @@
 
 case node.platform
 when 'suse'
-  default[:pacemaker][:platform][:packages] = %w(pacemaker crmsh)
+  default[:pacemaker][:platform][:packages] = %w(pacemaker crmsh openstack-resource-agents)
 
   # pacemaker-mgmt-client provides hb_gui, which it's useful
   # to run over ssh.  Note that pacemaker-mgmt needs to be installed
