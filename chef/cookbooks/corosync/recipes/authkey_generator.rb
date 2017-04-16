@@ -38,6 +38,7 @@ execute "corosync-keygen" do
   group "root"
   umask "0400"
   action :run
+  not_if { ::File.exists?(authkey_file) }
 end
 
 # Read authkey (it's binary) into encoded format and save to Chef server
